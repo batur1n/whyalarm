@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import requests
 
-from tg_channels import get_last_messages
-from tg_bot import TelegramBot
+from telegram.tg_channels import get_last_messages
+from telegram.tg_bot import TelegramBot
 
 ALERTS_URL = 'https://ubilling.net.ua/aerialalerts/'
 
