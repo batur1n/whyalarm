@@ -6,4 +6,4 @@ Channel: https://t.me/whyalarmkyiv
 
 ![image](https://github.com/batur1n/whyalarm/assets/17457639/be4d613d-ac28-4e96-81af-32ea19743b0d)
 
-Credits to @Ubilling team, their API is being used in this project https://wiki.ubilling.net.ua/doku.php?id=aerialalertsapi
+Credits to  [@Ubilling](https://github.com/nightflyza/Ubilling) team, their API is being used in this project - more info here https://wiki.ubilling.net.ua/doku.php?id=aerialalertsapi
