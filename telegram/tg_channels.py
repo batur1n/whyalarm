@@ -1,9 +1,3 @@
-"""
-1. Listen for webhook and wait for air alert to commence
-2. Once webhook is triggered, scan telegram channels for information
-3. Telegram bot sends aggregated message to own channel, with alert time and reason(s)
-"""
-
 from bs4 import BeautifulSoup
 import requests
 from my_secrets import TELEGRAM_CHANNELS
