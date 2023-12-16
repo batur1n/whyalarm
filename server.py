@@ -55,7 +55,7 @@ def main():
         elif not kyiv_info['alertnow'] and info_posted:
             telegram_bot.send_message('Відбій повітряної тривоги.')
             info_posted = False
-        wait(3)
+        wait(6)
                     
 if __name__ == '__main__':
     main()
