@@ -53,6 +53,7 @@ def main():
             telegram_bot.send_dict_as_message(find_telegram_info(alert_timestamp))
             info_posted = True
         elif not kyiv_info['alertnow'] and info_posted:
+            telegram_bot.send_message('Відбій повітряної тривоги.')
             info_posted = False
         wait(3)
                     
