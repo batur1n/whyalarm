@@ -20,7 +20,7 @@ class TelegramChannels:
         """Collect latest messages from telegram channels"""
         result = {}
         for channel_url, channel_name in self.telegram_channels.items():
-            channel_page = requests.get(channel_url, timeout=10).text
+            channel_page = requests.get(channel_url, timeout=30).text
             soup = BeautifulSoup(channel_page, 'lxml')
             messages = soup.find_all('div', class_ ='tgme_widget_message')
             for message in messages:
