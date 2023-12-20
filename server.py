@@ -1,7 +1,7 @@
 """
 Main script which runs 24/7 on EC2 instance and listens for alarms.
 In case of an alarm, it sends a message to a channel using telegram bot.
-There is also scraping/pasing part to notify users why alarm was triggered
+There is also scraping/parsing part to notify users why alarm was triggered.
 """
 from telegram.tg_channels import TelegramChannels
 from telegram.tg_bot import TelegramBot
