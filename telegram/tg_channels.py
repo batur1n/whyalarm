@@ -48,8 +48,8 @@ class TelegramChannels:
         for _, message in messages_dict.items():
             for keyword in self.keywords['UAV']:
                 if keyword in message:
-                    return 'Загроза ударних дронів'
+                    return '💣 Загроза ударних дронів'
             for keyword in self.keywords['MISSILE']:
                 if keyword in message:
-                    return 'Загроза ракетного удару'
+                    return '🚀 Загроза ракетного удару'
         return None
