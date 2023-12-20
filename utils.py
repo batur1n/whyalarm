@@ -17,7 +17,8 @@ class Utils:
             return response.json()['states']['м. Київ']
         return None
 
-    def wait(self, seconds, message="Waiting for updates"):
+    @staticmethod
+    def wait(seconds, message="Waiting for updates"):
         """Display dots in stdout while waiting"""
         sys.stdout.write('\n'+message)
         for _ in range(seconds*2):
