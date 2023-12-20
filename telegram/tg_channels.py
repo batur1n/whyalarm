@@ -31,7 +31,8 @@ class TelegramChannels:
         """Filter messages based on timestamp. Returns messages which were 
         posted right after or 10 minutes before the alarm was triggered"""
         results = {}
-        alert_timestamp_tz = alert_timestamp.astimezone(ZoneInfo("Europe/Kyiv"))
+        alert_datetime = datetime.fromisoformat(alert_timestamp)
+        alert_timestamp_tz = alert_datetime.astimezone(ZoneInfo("Europe/Kyiv"))
         while True:
             last_messages = self.scrape_last_messages()
             sys.stdout.write("\nGetting last messages from Telegram channels on web...")
@@ -47,8 +48,8 @@ class TelegramChannels:
         for _, message in messages_dict.items():
             for keyword in self.keywords['UAV']:
                 if keyword in message:
-                    return 'ударних дронів'
+                    return 'Загроза ударних дронів'
             for keyword in self.keywords['MISSILE']:
                 if keyword in message:
-                    return 'ракетного удару'
+                    return 'Загроза ракетного удару'
         return None
