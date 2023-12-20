@@ -1,61 +1,37 @@
+"""
+Main script which runs 24/7 on EC2 instance and listens for alarms.
+In case of an alarm, it sends a message to a channel using telegram bot.
+There is also scraping/pasing part to notify users why alarm was triggered
+"""
 import sys
-import time
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
-import requests
+from datetime import datetime
 
-from telegram.tg_channels import get_last_messages
+from telegram.tg_channels import TelegramChannels
 from telegram.tg_bot import TelegramBot
+from utils import Utils
+from my_secrets import ALERTS_API_ENDPOINT
 
-ALERTS_URL = 'https://ubilling.net.ua/aerialalerts/'
-
-def get_kyiv_info():
-    """Get alert info for Kyiv area"""
-    sys.stdout.write("\nSending GET request to alerts API... ")
-    response = requests.get(ALERTS_URL, timeout=10)
-    if response.status_code != 200:
-        sys.stdout.write(f"\nGET request failed: {response.status_code}, {response.reason}")
-    else:
-        sys.stdout.write(f'{response.status_code} OK')
-        return response.json()['states']['м. Київ']
-
-def wait(seconds, message="Waiting for updates"):
-    """Display dots in stdout while waiting"""
-    sys.stdout.write('\n'+message)
-    for _ in range(seconds*2):
-        time.sleep(.5)
-        sys.stdout.write('.')
-        sys.stdout.flush()
-
-def find_telegram_info(alert_timestamp, timeout=30):
-    results = {}
-    alert_timestamp_tz = alert_timestamp.astimezone(ZoneInfo("Europe/Kyiv"))
-
-    while not results:
-        wait(timeout, f"Waiting {timeout} seconds for Telegram channels to post some info")
-        last_messages = get_last_messages()
-        sys.stdout.write("\nGetting last messages from Telegram channels on web...")
-        for channel, message in last_messages.items():
-            if (datetime.fromisoformat(message[0]) > alert_timestamp_tz) or \
-               (datetime.fromisoformat(message[0]) < alert_timestamp_tz-timedelta(minutes=10)):
-                results[channel] = message[1]
-
-    return results
 
 def main():
+    """Main function with infinite loop"""
     info_posted = False
+    utils = Utils()
     telegram_bot = TelegramBot()
+    telegram_channels = TelegramChannels()
     while True:
-        kyiv_info = get_kyiv_info()
+        kyiv_info = utils.get_alert_info(ALERTS_API_ENDPOINT)
         if kyiv_info['alertnow'] and not info_posted:
-            telegram_bot.send_message("У Києві оголошено повітряну тривогу! Деталі через декілька хвилин.")
+            telegram_bot.send_message("У Києві оголошено повітряну тривогу! Деталі через 30сек-2хв")
             alert_timestamp = datetime.fromisoformat(kyiv_info['changed'])
-            telegram_bot.send_dict_as_message(find_telegram_info(alert_timestamp))
+            utils.wait(30, "Waiting 30 seconds for Telegram channels to post some info")
+            messages = telegram_channels.get_messages_near_timestamp(alert_timestamp)
+            telegram_bot.send_dict_as_message(messages)
+            sys.stdout.write("\nAlert reasons posted on telegram channel!")
             info_posted = True
         elif not kyiv_info['alertnow'] and info_posted:
             telegram_bot.send_message('Відбій повітряної тривоги.')
             info_posted = False
-        wait(6)
-                    
+        utils.wait(6)
+
 if __name__ == '__main__':
     main()
