@@ -1,5 +1,6 @@
 """Module for working with telegram bot"""
 import sys
+import os.path
 import requests
 from my_secrets import TELEGRAM_BOT_TOKEN, CHAT_ID
 
@@ -24,6 +25,9 @@ class TelegramBot:
         self.send_message(text)
         sys.stdout.write("\nAlert reasons posted on telegram channel!")
 
-    def send_photo(self, photo, caption):
+    def send_photo(self, caption):
         """Method to send photo with caption"""
-        requests.get(self.bot_url+f"sendPhoto?photo={photo}&chat_id={self.chat_id}&caption={caption}", timeout=10)
+        params = {'chat_id': self.chat_id, 'caption': caption}
+        file = open(os.path.join(os.path.dirname(__file__), '..', 'map.png'), 'rb')
+        requests.post(self.bot_url+'sendPhoto', params, files={'photo': file})
+        file.close()

@@ -2,6 +2,7 @@
 import sys
 import time
 import requests
+import shutil
 
 class Utils:
     """Class for various utils"""
@@ -16,6 +17,14 @@ class Utils:
             sys.stdout.write(f'{response.status_code} OK')
             return response.json()['states']['м. Київ']
         return None
+    
+    def get_map_image(self, endpoint):
+        """Get map image and store it locally for later upload"""
+        r = requests.get(endpoint + "?map=true", stream=True)
+        if r.status_code == 200:
+            with open('./map.png', 'wb') as f:
+                r.raw.decode_content = True
+                shutil.copyfileobj(r.raw, f)     
 
     @staticmethod
     def wait(seconds, message="Waiting for updates"):
