@@ -23,7 +23,7 @@ def main():
             utils.wait(30, "Waiting 30 seconds for Telegram channels to post some info")
             messages = telegram_channels.get_messages_near_timestamp(alert_info['changed'])
             reason = telegram_channels.parse_messages_for_alert_reason(messages)
-            telegram_bot.send_message(reason)
+            telegram_bot.send_photo(photo=ALERTS_API_ENDPOINT+'?map=true', caption=reason)
             telegram_bot.send_dict_as_message(messages)
             info_posted = True
         elif not alert_info['alertnow'] and info_posted:

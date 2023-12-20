@@ -4,7 +4,7 @@ import time
 import requests
 
 class Utils:
-    """Class fro various utils"""
+    """Class for various utils"""
 
     def get_alert_info(self, endpoint):
         """Get alert info for Kyiv area"""

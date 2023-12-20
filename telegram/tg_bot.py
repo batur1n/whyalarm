@@ -23,3 +23,7 @@ class TelegramBot:
             text = text + f"\n{key}: {value}\n"
         self.send_message(text)
         sys.stdout.write("\nAlert reasons posted on telegram channel!")
+
+    def send_photo(self, photo, caption):
+        """Method to send photo with caption"""
+        requests.get(self.bot_url+f"sendPhoto?photo={photo}&chat_id={self.chat_id}&caption={caption}", timeout=10)
