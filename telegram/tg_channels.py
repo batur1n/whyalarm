@@ -13,7 +13,7 @@ class TelegramChannels:
     def __init__(self):
         self.telegram_channels = TELEGRAM_CHANNELS
         self.keywords = {'UAV': ["шахід", "шахед", "шахид", "мопед", "бпла", "безпілотник"],
-                         'MISSILE': ["пуск", "ракет", "баліст", "баллист"]}
+                         'MISSILE': ["пуск", "ракет", "баліст", "баллист", "авіа", "х-"]}
 
     def scrape_last_messages(self):
         """Collect latest messages from telegram channels"""
@@ -47,9 +47,9 @@ class TelegramChannels:
         """Parse messages and see if keywords are in text"""
         for _, message in messages_dict.items():
             for keyword in self.keywords['UAV']:
-                if keyword in message:
+                if keyword in message.lower():
                     return '💣 Загроза ударних дронів'
             for keyword in self.keywords['MISSILE']:
-                if keyword in message:
+                if keyword in message.lower():
                     return '🚀 Загроза ракетного удару'
         return None
