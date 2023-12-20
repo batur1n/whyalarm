@@ -18,7 +18,7 @@ class TelegramBot:
 
     def send_dict_as_message(self, dictionary):
         """Method to send dict in a pretty printed format"""
-        text = 'Останні повідомлення з телеграм каналів: '
+        text = 'Останні повідомлення з телеграм каналів: \n'
         for key, value in dictionary.items():
             text = text + f"\n{key}: {value}\n"
         self.send_message(text)
