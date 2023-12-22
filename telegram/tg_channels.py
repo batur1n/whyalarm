@@ -12,7 +12,7 @@ class TelegramChannels:
 
     def __init__(self):
         self.telegram_channels = TELEGRAM_CHANNELS
-        self.keywords = {'UAV': ["шахід", "шахед", "шахид", "мопед", "бпла", "безпілотник"],
+        self.keywords = {'UAV': ["shahed", "шахед", "шахид", "мопед", "бпла", "безпілотник"],
                          'MISSILE': ["пуск", "ракет", "баліст", "баллист", "авіа", "х-"],
                          'PLANE': ["миг", "міг"]}
 
@@ -25,10 +25,7 @@ class TelegramChannels:
             messages = soup.find_all('div', class_ ='tgme_widget_message')
             for message in messages:
                 message_timestamp = datetime.fromisoformat(message.find('time', class_ = 'time').get('datetime'))
-                if timestamp+timedelta(minutes=5) >= message_timestamp >= timestamp:
-                    result[channel_name] = message.find('div', class_ = 'tgme_widget_message_text').text
-                    break
-                elif timestamp+timedelta(minutes=5) >= message_timestamp >= timestamp-timedelta(minutes=5):
+                if timestamp+timedelta(minutes=10) >= message_timestamp >= timestamp-timedelta(minutes=10):
                     result[channel_name] = message.find('div', class_ = 'tgme_widget_message_text').text
                     break
         return result
@@ -42,8 +39,7 @@ class TelegramChannels:
             last_messages = self.scrape_last_messages(alert_datetime.astimezone(ZoneInfo("Europe/Kyiv")))
             if any(value for value in last_messages.values()):
                 return last_messages
-            else:
-                Utils.wait(29, "Nothing found, waiting for new messages")
+            Utils.wait(29, "Nothing found, waiting for new messages")
 
     def parse_messages_for_alert_reason(self, messages_dict):
         """Parse messages and see if keywords are in text"""

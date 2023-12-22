@@ -20,7 +20,6 @@ def main():
         alert_info = utils.get_alert_info(ALERTS_API_ENDPOINT)
         if alert_info['alertnow'] and not info_posted:
             telegram_bot.send_message("У Києві оголошено повітряну тривогу! Деталі через 30сек-2хв")
-            utils.wait(30, "Waiting 30 seconds for Telegram channels to post some info")
             messages = telegram_channels.get_messages_near_timestamp(alert_info['changed'])
             reason = telegram_channels.parse_messages_for_alert_reason(messages)
             utils.get_map_image(ALERTS_API_ENDPOINT)
