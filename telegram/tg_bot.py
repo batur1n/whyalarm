@@ -29,5 +29,5 @@ class TelegramBot:
         """Method to send photo with caption"""
         params = {'chat_id': self.chat_id, 'caption': caption}
         file = open(os.path.join(os.path.dirname(__file__), '..', 'map.png'), 'rb')
-        requests.post(self.bot_url+'sendPhoto', params, files={'photo': file})
+        requests.post(self.bot_url+'sendPhoto', params, files={'photo': file}, timeout=30)
         file.close()
