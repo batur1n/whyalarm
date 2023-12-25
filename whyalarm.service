@@ -1,0 +1,13 @@
+[Unit]
+Description=WhyAlarm monitoring and alerting script
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/home/ec2-user/whyalarm/
+ExecStart=/usr/bin/python3 /home/ec2-user/whyalarm/server.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
