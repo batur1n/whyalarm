@@ -1,6 +1,6 @@
 """This module contains stuff which works with telegram channels"""
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
+from backports.zoneinfo import ZoneInfo
 from bs4 import BeautifulSoup
 import requests
 from my_secrets import TELEGRAM_CHANNELS
@@ -12,7 +12,7 @@ class TelegramChannels:
 
     def __init__(self):
         self.telegram_channels = TELEGRAM_CHANNELS
-        self.keywords = {'UAV': ["shahed", "шахед", "шахид", "мопед", "бпла", "безпілотник"],
+        self.keywords = {'UAV': ["shahed", "шахед", "шахид", "дрон", "бпла", "безпілотник"],
                          'MISSILE': ["пуск", "ракет", "баліст", "баллист", "авіа", "х-"],
                          'PLANE': ["миг", "міг"]}
 
@@ -25,7 +25,7 @@ class TelegramChannels:
             messages = soup.find_all('div', class_ ='tgme_widget_message')
             for message in messages:
                 message_timestamp = datetime.fromisoformat(message.find('time', class_ = 'time').get('datetime'))
-                if timestamp+timedelta(minutes=10) >= message_timestamp >= timestamp-timedelta(minutes=10):
+                if timestamp+timedelta(minutes=120) >= message_timestamp >= timestamp-timedelta(minutes=2):
                     result[channel_name] = message.find('div', class_ = 'tgme_widget_message_text').text
                     break
         return result

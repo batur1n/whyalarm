@@ -15,7 +15,7 @@ class TelegramBot:
 
     def send_message(self, message):
         """Simple method to send any string message"""
-        requests.get(self.bot_url+f"sendMessage?text={message}&chat_id={self.chat_id}", timeout=10)
+        requests.get(self.bot_url+f'sendMessage?text={message}&chat_id={self.chat_id}', timeout=10)
 
     def send_dict_as_message(self, dictionary):
         """Method to send dict in a pretty printed format"""
